@@ -34,5 +34,6 @@ public class ObstacleSpawner : MonoBehaviour
         // Crear el obstáculo en una posición nueva
         Vector3 spawnPosition = new Vector3(transform.position.x, randomY, 0);
         Instantiate(obstaclePrefab, spawnPosition, Quaternion.identity);
+        AudioManager.instance.PlayFireballSFX();
     }
 }

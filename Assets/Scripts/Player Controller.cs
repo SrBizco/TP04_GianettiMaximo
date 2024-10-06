@@ -7,11 +7,13 @@ public class PlayerController : MonoBehaviour
     public int health = 3; // Vida del jugador
 
     private Rigidbody2D rb;
+    Animator animator;
     private bool isGrounded;
-
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -32,16 +34,21 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            animator.SetBool("IsJumping", !isGrounded);
+            AudioManager.instance.StopMovementSFX();
+            AudioManager.instance.PlayJumpSFX();
         }
     }
 
     public void TakeDamage(int damageAmount)
     {
         health -= damageAmount; // Resta vida al jugador
+        AudioManager.instance.PlayDamageSFX();
         if (health <= 0)
         {
             Debug.Log("El jugador ha sido derrotado.");
-            // Aquí puedes agregar la lógica de reinicio del juego o destruir al jugador
+            AudioManager.instance.StopMusic();
+            AudioManager.instance.PlayDeathSFX();
         }
     }
 
@@ -50,6 +57,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true; // El jugador está en el suelo
+            animator.SetBool("IsJumping", !isGrounded);
+            AudioManager.instance.PlayMovementSFX();
         }
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
@@ -63,6 +72,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false; // El jugador ya no está en el suelo
+            animator.SetBool("IsJumping", !isGrounded);
         }
     }
 }
