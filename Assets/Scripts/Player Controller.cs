@@ -8,11 +8,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int health = 3;
     [SerializeField] private GameObject defeatPanel;
     [SerializeField] private GameObject victoryPanel;
-    
+
     private Rigidbody2D rb;
     private Animator animator;
     private bool isGrounded;
-    
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -23,19 +23,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Move(); 
-        Jump(); 
+        Move();
+        Jump();
     }
 
     private void Move()
     {
-        
+
         rb.velocity = new Vector2(speed, rb.velocity.y);
     }
 
     private void Jump()
     {
-        
+
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -47,35 +47,35 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        health -= damageAmount; 
+        health -= damageAmount;
         AudioManager.instance.PlayDamageSFX();
         if (health <= 0)
         {
-            Defeat(); 
+            Defeat();
             Debug.Log("El jugador ha sido derrotado.");
-            
+
         }
     }
     private void Defeat()
     {
-        
+
         Time.timeScale = 0;
         AudioManager.instance.StopMusic();
         AudioManager.instance.StopMovementSFX();
         AudioManager.instance.PlayDeathSFX();
 
-      
+
         defeatPanel.SetActive(true);
     }
     private void Victory()
     {
-        
+
         Time.timeScale = 0;
         AudioManager.instance.StopMusic();
         AudioManager.instance.StopMovementSFX();
         AudioManager.instance.PlayDeathSFX();
 
-        
+
         victoryPanel.SetActive(true);
     }
 
