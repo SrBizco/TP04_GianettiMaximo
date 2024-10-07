@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform player; // Referencia al transform del jugador
-    public Vector3 offset; // Offset para ajustar la posición de la cámara
+    [SerializeField] private Transform player; // Referencia al transform del jugador
+    [SerializeField] private Vector3 offset; // Offset para ajustar la posición de la cámara
 
     void Update()
     {

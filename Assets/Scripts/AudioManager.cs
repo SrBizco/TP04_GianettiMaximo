@@ -4,27 +4,31 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
-    public AudioSource musicSource;
-    public AudioSource movementSource;
-    public AudioSource jumpSource;
-    public AudioSource damageSource;
-    public AudioSource deathSource;
-    public AudioSource fireballSource;
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource movementSource;
+    [SerializeField] private AudioSource jumpSource;
+    [SerializeField] private AudioSource damageSource;
+    [SerializeField] private AudioSource deathSource;
+    [SerializeField] private AudioSource fireballSource;
+
+    private AudioSource[] audioSources;
 
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Mantiene el AudioManager al cambiar de escenas
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
+
+        audioSources = new AudioSource[] { musicSource, movementSource, jumpSource, damageSource, deathSource, fireballSource };
     }
 
-    // Funciones para reproducir y detener la música
     public void PlayMusic()
     {
         musicSource.Play();
@@ -34,8 +38,7 @@ public class AudioManager : MonoBehaviour
     {
         musicSource.Stop();
     }
-
-    // Funciones para reproducir y detener el sonido de movimiento
+  
     public void PlayMovementSFX()
     {
         movementSource.Play();
@@ -45,8 +48,7 @@ public class AudioManager : MonoBehaviour
     {
         movementSource.Stop();
     }
-
-    // Funciones para reproducir y detener el sonido de salto
+   
     public void PlayJumpSFX()
     {
         jumpSource.Play();
@@ -56,8 +58,7 @@ public class AudioManager : MonoBehaviour
     {
         jumpSource.Stop();
     }
-
-    // Funciones para reproducir y detener el sonido de recibir daño
+  
     public void PlayDamageSFX()
     {
         damageSource.Play();
@@ -67,8 +68,7 @@ public class AudioManager : MonoBehaviour
     {
         damageSource.Stop();
     }
-
-    // Funciones para reproducir y detener el sonido de muerte
+  
     public void PlayDeathSFX()
     {
         deathSource.Play();
@@ -78,8 +78,7 @@ public class AudioManager : MonoBehaviour
     {
         deathSource.Stop();
     }
-
-    // Funciones para reproducir y detener el sonido de bola de fuego
+    
     public void PlayFireballSFX()
     {
         fireballSource.Play();
@@ -89,4 +88,15 @@ public class AudioManager : MonoBehaviour
     {
         fireballSource.Stop();
     }
+   
+    public void SetVolume(float volume)
+    {
+        volume = Mathf.Clamp(volume, 0f, 1f);
+        Debug.Log("Volumen ajustado a: " + volume);
+        foreach (AudioSource audioSource in audioSources)
+        {
+            audioSource.volume = volume;
+        }
+    }
+
 }

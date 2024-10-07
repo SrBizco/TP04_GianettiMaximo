@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
-    public Transform background1; // Primer fondo (padre vacío)
-    public Transform background2; // Segundo fondo (padre vacío)
-
-    private float backgroundWidth; // Ancho del fondo
-    private Transform cameraTransform; // Transform de la cámara
-    public float repositionOffset = 1f; // Ajuste para que se reposicione antes
+    [SerializeField] private Transform background1;
+    [SerializeField] private Transform background2;
+    [SerializeField] private float repositionOffset = 1f;
+    
+    private float backgroundWidth; 
+    private Transform cameraTransform; 
+    
 
     void Start()
     {
